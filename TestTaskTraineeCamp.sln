@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestTaskTraineeCamp.Server", "TestTaskTraineeCamp.Server\TestTaskTraineeCamp.Server.csproj", "{0E6687C6-4E63-433B-BF35-506383568998}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "testtasktraineecamp.client", "testtasktraineecamp.client\testtasktraineecamp.client.esproj", "{BF535E99-4418-47F8-8D4C-756D95767285}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureBlobTriggerFunction", "AzureBlobTriggerFunction\AzureBlobTriggerFunction.csproj", "{E7390EDE-9CB7-4914-AD7F-4B5612256C18}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0E6687C6-4E63-433B-BF35-506383568998}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E6687C6-4E63-433B-BF35-506383568998}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E6687C6-4E63-433B-BF35-506383568998}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E6687C6-4E63-433B-BF35-506383568998}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF535E99-4418-47F8-8D4C-756D95767285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF535E99-4418-47F8-8D4C-756D95767285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF535E99-4418-47F8-8D4C-756D95767285}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BF535E99-4418-47F8-8D4C-756D95767285}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF535E99-4418-47F8-8D4C-756D95767285}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF535E99-4418-47F8-8D4C-756D95767285}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{E7390EDE-9CB7-4914-AD7F-4B5612256C18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7390EDE-9CB7-4914-AD7F-4B5612256C18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7390EDE-9CB7-4914-AD7F-4B5612256C18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7390EDE-9CB7-4914-AD7F-4B5612256C18}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F3800F7C-307E-40BD-83F5-FBF684D0E8B2}
+	EndGlobalSection
+EndGlobal
