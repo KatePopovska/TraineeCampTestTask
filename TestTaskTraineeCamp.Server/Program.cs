@@ -1,13 +1,23 @@
 using FluentValidation;
+using Microsoft.Extensions.Azure;
+using TestTaskTraineeCamp.Server;
 using TestTaskTraineeCamp.Server.Services;
 using TestTaskTraineeCamp.Server.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var azureBlobSettingsOption = builder.Configuration.GetSection(AzureBlobSettingsOption.ConfigKey)
+    .Get<AzureBlobSettingsOption>()!;
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddSingleton(azureBlobSettingsOption);
+builder.Services.AddAzureClients(x => x
+                                      .AddBlobServiceClient(azureBlobSettingsOption.ConnectionString)
+                                      .WithName(azureBlobSettingsOption.ConnectionName));
+
 
 builder.Services.AddTransient<IBlobService, BlobService>();
 builder.Services.AddTransient<IValidator<IFormFile>, FileUploadValidator>();

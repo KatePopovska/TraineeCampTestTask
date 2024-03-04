@@ -3,34 +3,34 @@ using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
+using Microsoft.Extensions.Azure;
 using TestTaskTraineeCamp.Server.Models;
 
 namespace TestTaskTraineeCamp.Server.Services
 {
     public class BlobService : IBlobService
     {
-        private readonly string _storageConnectionString;
-        private readonly string _storageContainerName;
+        private readonly BlobServiceClient _blobServiceClient;
+        private readonly AzureBlobSettingsOption _azBlobSettingsOption;
         private readonly ILogger<BlobService> _logger;
 
-        public BlobService(IConfiguration configuration, ILogger<BlobService> logger)
+        public BlobService(IAzureClientFactory<BlobServiceClient> blobServiceClientFactory, AzureBlobSettingsOption azureBlobSettingsOption, ILogger<BlobService> logger)
         {
-            _storageConnectionString = configuration.GetValue<string>("BlobConnectionString");
-            _storageContainerName = configuration.GetValue<string>("BlobContainerName");
+             _azBlobSettingsOption = azureBlobSettingsOption;
+            _blobServiceClient = blobServiceClientFactory.CreateClient(_azBlobSettingsOption.ConnectionName);
             _logger = logger;
         }
 
         public async Task<BlobResponseDto> DeleteAsync(string blobFileName)
         {
-            BlobContainerClient client = new BlobContainerClient(_storageConnectionString, _storageContainerName);
-
+            BlobContainerClient client = _blobServiceClient.GetBlobContainerClient(_azBlobSettingsOption.ContainerName);
             BlobClient file = client.GetBlobClient(blobFileName);
 
             try
             {
                 await file.DeleteAsync();
             }
-            catch (RequestFailedException ex) when (ex.ErrorCode ==BlobErrorCode.BlobNotFound)
+            catch (RequestFailedException ex) when (ex.ErrorCode == BlobErrorCode.BlobNotFound)
             { 
                 _logger.LogError(ex.Message);
 
@@ -42,7 +42,7 @@ namespace TestTaskTraineeCamp.Server.Services
 
         public async Task<BlobDto> DownloadAsync(string blobFileName)
         {
-            BlobContainerClient container = new BlobContainerClient(_storageConnectionString, _storageContainerName);
+            BlobContainerClient container = new BlobContainerClient(_azBlobSettingsOption.ConnectionString, _azBlobSettingsOption.ContainerName);
 
             try
             {
@@ -68,7 +68,7 @@ namespace TestTaskTraineeCamp.Server.Services
 
         public async Task<List<BlobDto>> GetAllAsync()
         {
-            BlobContainerClient container = new BlobContainerClient( _storageConnectionString, _storageContainerName);
+            BlobContainerClient container = _blobServiceClient.GetBlobContainerClient(_azBlobSettingsOption.ContainerName);
 
             List<BlobDto> files = new List<BlobDto>();
 
@@ -91,7 +91,7 @@ namespace TestTaskTraineeCamp.Server.Services
 
         public async Task<BlobResponseDto> UploadAsync(IFormFile file, string userEmail)
         {
-           BlobContainerClient container = new BlobContainerClient(_storageConnectionString, _storageContainerName);
+            BlobContainerClient container = _blobServiceClient.GetBlobContainerClient(_azBlobSettingsOption.ContainerName);
 
             BlobResponseDto response = new();
 
@@ -110,7 +110,7 @@ namespace TestTaskTraineeCamp.Server.Services
 
                 BlobSasBuilder blobSasBuilder = new BlobSasBuilder()
                 {
-                    BlobContainerName = _storageContainerName,
+                    BlobContainerName = _azBlobSettingsOption.ContainerName,
                     ExpiresOn = DateTime.UtcNow.AddHours(1),
                 };
                 blobSasBuilder.SetPermissions(BlobAccountSasPermissions.All);
